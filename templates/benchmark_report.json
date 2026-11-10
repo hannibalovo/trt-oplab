@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "not_measured",
+  "workload": {
+    "engine_mode": null,
+    "engine_sha256": null,
+    "layer_mapping": null,
+    "batch": null,
+    "heads": null,
+    "query_tokens": null,
+    "kv_tokens": null,
+    "head_dim": null,
+    "dtype": null,
+    "input_strides": null,
+    "cache_state": null,
+    "scale_mask_causal": null
+  },
+  "environment": {
+    "gpu": null,
+    "cuda_version": null,
+    "trt_version": null,
+    "driver_version": null,
+    "candidate_commit": null,
+    "stream": null,
+    "cuda_graph": null,
+    "concurrent_gpu_load": null
+  },
+  "protocol": {
+    "warmup_repeats": null,
+    "measurement_repeats": null,
+    "timing_tool": null,
+    "synchronization": null,
+    "units": "ms"
+  },
+  "timing": {
+    "kernel_only": {"baseline_p50_ms": null, "candidate_p50_ms": null, "baseline_source": "unavailable"},
+    "full_operator": {"baseline_p50_ms": null, "candidate_p50_ms": null, "boundary_equal": null},
+    "full_engine": {"baseline_p50_ms": null, "candidate_p50_ms": null, "input_replay_identical": null}
+  },
+  "numerical_validation_report": null,
+  "evidence_files": [],
+  "limitations": ["Template only: no measurements have been made"]
+}

@@ -1,0 +1,152 @@
+{
+  "scope": "one reduced attention example; no engine or full-model replacement",
+  "criteria": {
+    "atol": 0.02,
+    "rtol": 0.02,
+    "criterion": "abs(candidate - baseline) <= atol + rtol * abs(baseline)",
+    "scope": "example local pointwise check only; not a task accuracy threshold",
+    "fp32_metrics": "diagnostic only; no inherited layer0 absolute error gate"
+  },
+  "stored_fp32_reference_reproduced": {
+    "finite": true,
+    "elements": 4096,
+    "outside_tolerance": 0,
+    "mae": 1.4442536233616465e-07,
+    "rmse": 3.453109989511216e-07,
+    "max_abs": 5.125999450683594e-06,
+    "cosine": 0.9999999999987036,
+    "bitwise_equal": false,
+    "passed": true
+  },
+  "candidate_vs_trt": {
+    "finite": true,
+    "elements": 4096,
+    "outside_tolerance": 0,
+    "mae": 0.00014506091974908486,
+    "rmse": 0.0003703115741661101,
+    "max_abs": 0.00390625,
+    "cosine": 0.9999985830713267,
+    "bitwise_equal": false,
+    "passed": true
+  },
+  "candidate_vs_fp32_diagnostic": {
+    "finite": true,
+    "elements": 4096,
+    "outside_tolerance": 0,
+    "mae": 0.00016053293776785438,
+    "rmse": 0.00030800048277467766,
+    "max_abs": 0.003656744956970215,
+    "cosine": 0.9999989664939246,
+    "bitwise_equal": false,
+    "passed": true
+  },
+  "trt_vs_fp32_diagnostic": {
+    "finite": true,
+    "elements": 4096,
+    "outside_tolerance": 0,
+    "mae": 0.00022958431049602268,
+    "rmse": 0.00038251312472441495,
+    "max_abs": 0.003656744956970215,
+    "cosine": 0.9999984903202563,
+    "bitwise_equal": false,
+    "passed": true
+  },
+  "behavior": {
+    "caller_output_preserved": true,
+    "inputs_unchanged": true,
+    "output_finite_and_written": true,
+    "output_guards_unchanged": true,
+    "output_shape_dtype": true
+  },
+  "repeated_run_behavior": {
+    "caller_output_preserved": true,
+    "inputs_unchanged": true,
+    "output_finite_and_written": true,
+    "output_guards_unchanged": true,
+    "output_shape_dtype": true
+  },
+  "repeated_output_bitwise_equal": true,
+  "perturbations": {
+    "q": {
+      "vs_fp32": {
+        "finite": true,
+        "elements": 4096,
+        "outside_tolerance": 0,
+        "mae": 0.00015599816623534934,
+        "rmse": 0.0002988555786397329,
+        "max_abs": 0.00318753719329834,
+        "cosine": 0.9999987072363805,
+        "bitwise_equal": false,
+        "passed": true
+      },
+      "behavior": {
+        "caller_output_preserved": true,
+        "inputs_unchanged": true,
+        "output_finite_and_written": true,
+        "output_guards_unchanged": true,
+        "output_shape_dtype": true
+      },
+      "reference_changed": true,
+      "output_changed": true,
+      "passed": true
+    },
+    "k": {
+      "vs_fp32": {
+        "finite": true,
+        "elements": 4096,
+        "outside_tolerance": 0,
+        "mae": 0.00015599816623534934,
+        "rmse": 0.0002988555786397329,
+        "max_abs": 0.00318753719329834,
+        "cosine": 0.9999987072363805,
+        "bitwise_equal": false,
+        "passed": true
+      },
+      "behavior": {
+        "caller_output_preserved": true,
+        "inputs_unchanged": true,
+        "output_finite_and_written": true,
+        "output_guards_unchanged": true,
+        "output_shape_dtype": true
+      },
+      "reference_changed": true,
+      "output_changed": true,
+      "passed": true
+    },
+    "v": {
+      "vs_fp32": {
+        "finite": true,
+        "elements": 4096,
+        "outside_tolerance": 0,
+        "mae": 0.0007281009801545224,
+        "rmse": 0.0009038113773705829,
+        "max_abs": 0.0036058425903320312,
+        "cosine": 0.9999985725436633,
+        "bitwise_equal": false,
+        "passed": true
+      },
+      "behavior": {
+        "caller_output_preserved": true,
+        "inputs_unchanged": true,
+        "output_finite_and_written": true,
+        "output_guards_unchanged": true,
+        "output_shape_dtype": true
+      },
+      "reference_changed": true,
+      "output_changed": true,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "environment": {
+    "python": "3.12.3",
+    "torch": "2.10.0a0+b558c986e8.nv25.11",
+    "cuda": "13.0",
+    "device": "cuda",
+    "gpu": "NVIDIA Thor"
+  },
+  "candidate": {
+    "file": "candidate_example.py",
+    "sha256": "c38aed73cadd74e1191395ddb4b2a5d39ba7d8d53e1d8a996134ee75e5a8d036"
+  }
+}
