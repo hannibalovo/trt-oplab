@@ -11,7 +11,7 @@ Device/TRT/CUDA: <...>
 - Candidate Plugin: exact subgraph to replace (can differ from study)
 
 ## Runtime context
-- Chunk / forward index / Action or Video / draft, predicted, real:
+- Chunk / forward index / workload mode / draft, predicted, real:
 - Cache history length, valid slot order, mask, actual K/V layout:
 - Scale/causal/attention bias/position IDs:
 - Tensor names and shapes/dtypes/strides/contiguity: Q / K / V / O:

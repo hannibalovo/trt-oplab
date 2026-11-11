@@ -1,5 +1,5 @@
 ---
-name: operator-optimization-workbench
+name: trt-oplab
 description: >-
   Evidence-driven GPU operator extraction, standalone replay, kernel/operator
   benchmarking, TensorRT integration, and end-to-end regression review.
@@ -28,7 +28,9 @@ measurement boundary, workload, units, and comparison artifact.
 ## Quickstart (8 steps; v0.3)
 
 1. **Define** target workload, hypothesis, metric and fallback; record the
-   production path and runtime call boundary. See `references/01-scope-baseline.md`.
+   production path and runtime call boundary. If initialization can be lazy,
+   define whether it belongs to startup or first-request cost. See
+   `references/01-scope-baseline.md` and `references/09-engine-lifecycle.md`.
 2. **Inspect** the baseline Engine/trace, find target ONNX node(s), TRT layer(s),
    and actual GPU kernel(s). `python helpers/layerinfo.py summary BASE.json`.
 3. **Extract** authentic inputs and reference outputs with shape/dtype/stride,
@@ -40,7 +42,9 @@ measurement boundary, workload, units, and comparison artifact.
    For offline JSON report consistency: `python helpers/evidence_audit.py --help`.
 5. **Measure** on original production-shaped data, not a reduced validation
    fixture. Record candidate K and complete O; only compare to original TRT at
-   demonstrably matched boundaries. `references/08-benchmark-protocol.md`.
+   demonstrably matched boundaries. For paged KV, first state the Engine ABI
+   and cache lifecycle contract. See `references/08-benchmark-protocol.md` and
+   `references/10-paged-kv-contract.md`.
 6. **Choose boundary** deliberately; integrate only after local evidence.
    ONNX rewrite + Plugin/ordinary TRT graph; see `references/04-integration.md`.
 7. **Compare engines** and rerun application replay. `python helpers/layerinfo.py diff BASE.json CANDIDATE.json`.
@@ -73,6 +77,8 @@ the helper verifies records, not mathematical truth.
 - `references/06-governance.md` — how skills/helpers/experiments evolve, avoiding overengineering
 - `references/07-validation-harness.md` — real tensor fixtures, candidate interface, negative controls, report-strength limits
 - `references/08-benchmark-protocol.md` — matched production-shape K/O/I measurement, original-TRT baseline constraints
+- `references/09-engine-lifecycle.md` — Engine initialization, cold/hot file cache, graph setup, first-use and steady-state boundaries
+- `references/10-paged-kv-contract.md` — dense versus paged Engine ABI, page-table/cache invariants and staged integration checks
 
 ## Helper index
 
@@ -86,13 +92,13 @@ the helper verifies records, not mathematical truth.
   layout, numerics, or tactics. A debug Engine is **not automatically the original** Engine.
 - A Plugin can replace a compute region but often prevents native optimization *through*
   its body. Smallest Plugin is not automatically fastest; largest is not either.
-- A standalone replay should not become an accidental claim that full 30-layer
-  inference or multi-chunk KV semantics have passed.
+- A standalone replay should not become an accidental claim that full-Engine
+  inference or multi-step KV semantics have passed.
 - A validator PASS on a **sliced contiguous** Q/K/V fixture is not proof of
   production-strided operation, performance, Plugin integration or E2E quality.
-- Do not call two same-named layers identical across Action vs Video Engines or
-  across distinct Engine hashes; compare workload, source, shape and Tactic.
-- Never package raw company tensors, models, proprietary Engine summaries or
+- Do not call same-named layers identical across workload modes or distinct
+  Engine hashes; compare workload, source, shape and Tactic.
+- Never package raw project tensors, models, proprietary Engine summaries or
   credentials in a portable Skill installer.
 - Don't build a multi-skill orchestrator until repeated independent workstreams
   truly require separate ownership. Reuse existing Nsight/KernelWiki skills by links.

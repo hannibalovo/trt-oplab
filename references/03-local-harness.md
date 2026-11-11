@@ -2,7 +2,7 @@
 
 ## Goal
 
-Develop an operator without rebuilding the 30-layer engine after each edit.
+Develop an operator without rebuilding the full Engine after each edit.
 A local harness is a stand-alone executable/script loading the captured
 Q/K/V (or FFN input + fixed weights), invoking a reference and candidate,
 checking numerics, warming up, and measuring a defined cost boundary.
@@ -49,7 +49,7 @@ reason may still justify an integration test, but record the override.
 
 ```json
 {
-  "workload": "action-B2-Sq32-Sk8160-bf16",
+  "workload": "mode-B-Sq-Sk-dtype",
   "numeric": {"max_abs_error": null, "threshold": null, "nan_inf_count": null},
   "kernel_only_ms": {"baseline": null, "candidate": null, "repetitions": null},
   "full_operator_ms": {"baseline": null, "candidate": null, "repetitions": null},

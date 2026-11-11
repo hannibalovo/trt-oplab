@@ -11,7 +11,7 @@
 Do not conflate them. `history_k/v` at the engine input is **not** the same as
 per-block Q/K/V after projections, norm, RoPE, concat and layout transforms.
 
-## Capturing from a compiled 30-layer Engine
+## Capturing from a compiled Engine
 
 - **ONNX additional outputs**: expose the exact graph values at the desired
   boundary, rebuild an isolated debug Engine, capture on matched real inputs.

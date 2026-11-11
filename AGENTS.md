@@ -15,11 +15,11 @@
 8. Prefer references to existing NCU/KernelWiki skills over copied content.
 
 
-## v0.3: company validation adapter
+## Project validation adapter
 
-Use existing `operator_validation/` as the project-owned numerical executor.
+Use the existing project-owned numerical executor, if available.
 Before a claim of local numerical PASS, inspect frozen contract, saved candidate
 results and negative control tests; `helpers/evidence_audit.py` only audits
-reported JSON claims. Never copy raw captured tensors into portable installers.
+reported JSON claims. Never copy raw captured tensors into this public workbench.
 Before a speedup claim, require matching production-shaped benchmark evidence.
 See references/07-validation-harness.md and references/08-benchmark-protocol.md.
