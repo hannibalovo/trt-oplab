@@ -3,7 +3,7 @@
 
 This validates consistency and strength of *claims in supplied reports*. It does
 not verify safetensors bytes, recompute outputs, or prove TRT debug equivalence.
-Standard library only; no company data is embedded in this helper.
+Standard library only; no project data is embedded in this helper.
 """
 from __future__ import annotations
 import argparse
@@ -169,7 +169,7 @@ def assess(*, cpu=None, cuda=None, capture=None, manifest=None, contract=None, c
     warnings.extend([
         'No safetensors: cannot recompute FP32 or validate the actual captured Q/K/V/O tensors.',
         'No performance evidence: do not claim kernel, operator, Engine or application acceleration.',
-        'One reduced fixture is not a 30-layer, multiple-state, original-TRT-kernel or Plugin-integration test.',
+        'One reduced fixture is not a full-Engine, multiple-state, original-TRT-kernel or Plugin-integration test.',
     ])
     return {'schema_version':1,'audit_scope':'JSON-report consistency only',
             'report_checks_passed':not issues,'independently_recomputed':False,

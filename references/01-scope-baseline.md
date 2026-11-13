@@ -2,17 +2,27 @@
 
 ## Question first
 
-What *end-to-end* quantity are we improving? For a LingBot offline 5/5 replay,
-there are two `model.infer` requests per chunk (`infer_generate` and
-`infer_commit`), not one Transformer forward. The 5+1 Video, 5+1 Action,
-and 1+1 real-commit forwards amount to **14 complete Transformer forwards** per
-chunk in that setup. This is not a mechanical rollout metric.
+What *end-to-end* quantity are we improving? Count the actual model/runtime
+calls made by one user-visible request, including generation, commit, retries,
+and other modes. A single Transformer forward may represent only part of a
+request; state the call count and boundary for the workload being measured.
 
 Define the actual target before profilers:
 - workload fingerprint: model/weights + ONNX graph + engine/build flags, min/opt/max
   profile, precision, GPU/TRT/CUDA versions, cache occupancy and layout;
-- representative cases: first/partial/full KV, Action/Video, draft/pred/real;
+- representative cases: empty/partial/full KV and each supported mode or
+  commit path;
+- replay semantics: whether later chunks consume predicted, demonstrated, or other
+  reference actions as history; initial cache state and prediction-clear, real-commit,
+  and eviction behavior. These histories are different workloads and must not be
+  paired as equivalent inputs;
 - primary measure: `per-chunk generate+commit wall ms` **or** another declared metric;
+- measurement horizon: first-use latency versus steady replay, chunk range/count,
+  and whether Engine initialization, CUDA Graph construction, and warmup are included;
+- runtime lifecycle state: serialized Engine, deserialized Engine, context/profile/
+  buffers ready, warmed, or graph captured; state which steps are eager or lazy
+  and whether the target is Startup-to-Ready, first-request, or steady state. See
+  `09-engine-lifecycle.md` when initialization is in scope;
 - constraints: accuracy tolerance, warmup, memory ceiling, build/run overhead;
 - negative control: original engine and identical replay inputs/commits.
 

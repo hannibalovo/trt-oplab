@@ -5,7 +5,7 @@
 - **SKILL.md** = navigation, trigger, exit conditions, pitfalls (short).
 - **references/** = one stage's conceptual checklist and specific invariants.
 - **helpers/** = deterministic actions with input validation, tests, explicit errors.
-- **project adapters/** = paths/API/contracts to LingBot, vLLM, SGLang, GR00T etc.
+- **project adapters/** = paths, APIs, and contracts for supported runtimes.
 - **experiments/** = immutable input snapshots, logs, profiles, build hashes,
   decisions and negative results.
 

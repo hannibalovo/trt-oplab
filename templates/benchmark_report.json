@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "status": "not_measured",
   "workload": {
     "engine_mode": null,
@@ -13,7 +13,11 @@
     "dtype": null,
     "input_strides": null,
     "cache_state": null,
-    "scale_mask_causal": null
+    "scale_mask_causal": null,
+    "history_source": null,
+    "cache_lifecycle": null,
+    "chunk_range": null,
+    "chunk_count": null
   },
   "environment": {
     "gpu": null,
@@ -30,14 +34,86 @@
     "measurement_repeats": null,
     "timing_tool": null,
     "synchronization": null,
-    "units": "ms"
+    "units": "ms",
+    "arm_order_by_pair": [],
+    "valid_pair_count": null,
+    "excluded_runs": [],
+    "exclusion_policy": null
   },
+  "lifecycle": {
+    "endpoint": null,
+    "endpoint_definition": null,
+    "engine_initialization_mode": null,
+    "storage": {
+      "source_device_filesystem": null,
+      "target_device_filesystem": null,
+      "source_engine_sha256": null,
+      "target_engine_sha256": null,
+      "hashes_match": null,
+      "page_cache_state": "unknown",
+      "residency_method_and_evidence": null
+    },
+    "phase_wall_ms": {
+      "file_read": null,
+      "runtime_creation": null,
+      "deserialization": null,
+      "context_creation": null,
+      "profile_binding_allocation": null,
+      "first_use_setup": null,
+      "warmup": null,
+      "graph_capture": null,
+      "graph_instantiation": null
+    },
+    "failed_attempts": [],
+    "raw_rounds_evidence": null
+  },
+  "arms": [
+    {
+      "name": null,
+      "changes": [],
+      "engine_sha256": null,
+      "runtime_path": null,
+      "kv_path": null,
+      "cuda_graph": null
+    }
+  ],
   "timing": {
     "kernel_only": {"baseline_p50_ms": null, "candidate_p50_ms": null, "baseline_source": "unavailable"},
     "full_operator": {"baseline_p50_ms": null, "candidate_p50_ms": null, "boundary_equal": null},
-    "full_engine": {"baseline_p50_ms": null, "candidate_p50_ms": null, "input_replay_identical": null}
+    "full_engine": {"baseline_p50_ms": null, "candidate_p50_ms": null, "input_replay_identical": null},
+    "clock_domain_by_measurement": {
+      "kernel_only": null,
+      "full_operator": null,
+      "full_engine": null,
+      "engine_initialization": "host_wall",
+      "cuda_graph_setup": "host_wall",
+      "warmup": null,
+      "kv_preparation": null,
+      "engine_forward": null,
+      "chunk_generate": "host_wall",
+      "chunk_commit": "host_wall",
+      "chunk_total": "host_wall",
+      "gpu_kernel_busy": "gpu_activity"
+    },
+    "engine_initialization_wall_ms": null,
+    "cuda_graph_setup_wall_ms": null,
+    "warmup_ms": null,
+    "kv_preparation_ms": null,
+    "engine_forward_ms": null,
+    "chunk_generate_wall_ms": null,
+    "chunk_commit_wall_ms": null,
+    "chunk_total_wall_ms": null,
+    "gpu_kernel_busy_ms": null,
+    "steady_saving_per_chunk_ms": null,
+    "break_even_chunks_estimate": null,
+    "break_even_status": "not_established"
   },
   "numerical_validation_report": null,
+  "task_quality_acceptance": {
+    "status": "not_measured",
+    "reference": null,
+    "threshold_source": null
+  },
   "evidence_files": [],
   "limitations": ["Template only: no measurements have been made"]
 }

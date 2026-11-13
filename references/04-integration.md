@@ -8,6 +8,12 @@ A larger Plugin can reduce extra copies, but can also destroy optimized native
 GEMM fusion. Smaller is not automatically better. Decide using local cost and
 pre-existing TRT fusion/tactic evidence.
 
+Paged KV changes the Engine input ABI: define the physical pool, page-ID
+namespace, ordered valid table prefix, per-batch lengths, current-KV staging,
+and maximum capacity before rewriting. A page-table binding alone does not
+remove dense-history reads; verify the candidate ONNX and Engine have no hidden
+dense gather/pack path. See `10-paged-kv-contract.md`.
+
 ## Integration checklist
 
 1. Save baseline Engine + ONNX + LayerInfo, builder logs, profiles, custom plugin
@@ -17,6 +23,9 @@ pre-existing TRT fusion/tactic evidence.
 3. Register/load Plugin implementation at **build and runtime** as required.
    Plugin is not merely an ONNX name: it needs compatible shape/type/format,
    execution and serialization contracts.
+   Define creator name/version/namespace and test registration in a cold runtime
+   process. Record handle, workspace, binding, stream, aliasing, and teardown
+   ownership for stateful backends.
 4. Build candidate Engine with matched precision, profiles, target device and
    as many identical build settings as feasible.
 5. Perform same-input isolated **full-Engine numerical comparison**, then longer
@@ -52,4 +61,11 @@ fusion change can make one-to-one alignment impossible; report ambiguity.
 
 If multi-plugin combinations cause nonfinite results, **block** final acceptance
 and bisect layer count/order, shapes, lifecycle and memory aliasing. One-layer
-correctness is not proof of 30-layer safety.
+correctness is not proof of full-Engine safety.
+
+For paged attention, first compare identical-input Paged and Contiguous backend
+calls, then one Plugin, the smallest failing multi-Plugin set, and an
+all-Contiguous control. Capture the first nonfinite Plugin output and its next
+consumer input. A disappearing failure remains unresolved until reproduced and
+attributed; diagnostic taps may alter tactics, so compare tapped and untapped
+Engines.

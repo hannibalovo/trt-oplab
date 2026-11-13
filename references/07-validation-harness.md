@@ -3,9 +3,9 @@
 ## Role and ownership
 
 The Skill is a navigator, **not** the numerical oracle. Use the project's existing
-`operator_validation/{validate.py,reference.py,contract.json,manifest.json,data/,evidence/}`
-(or equivalent). Do not duplicate, rewrite, or vendor a colleague's implementation
-unless the repository owner requests it. This skill provides an **offline JSON
+validation harness and frozen contract/manifest/data (or equivalent). Do not
+duplicate, rewrite, or vendor a project-owned implementation unless its owner
+requests it. This skill provides an **offline JSON
 report auditor**, not a substitute for actually running that validator.
 
 ## Truth hierarchy
@@ -26,10 +26,14 @@ reported source checks from independently rerun checks.
   input roles, tensor shapes, **strides**, dtype, physical layout and alignment;
   scale, mask, causal/dropout, quantization/rounding, state/cache semantics.
 - Reproducible source run, model/engine/build config hashes, layer mapping and
-  execution mode (video/action), real head/query/KV lengths and cache state.
+  execution mode, real head/query/KV lengths and cache state.
 - Caller-owned output allocation; allowed mutation, stream ownership, workspace,
   aliasing rules. A fixture that was sliced and made contiguous is **not** proof
   of original strided layout support.
+- For paged KV, also record pool shape/strides and ownership, page size and ID
+  namespace, table shape/valid prefix/padding rule, effective lengths, staging
+  capacity, and commit/clear/eviction/reset semantics. Keep private raw fixtures
+  in their source project.
 - Numerical acceptance frozen **before** candidate evaluation:
   `abs(candidate - trt) <= atol + rtol * abs(trt)` per element, or a clearly
   specified different criterion. A scalar max-abs versus `atol` alone is NOT a
@@ -54,19 +58,23 @@ reported source checks from independently rerun checks.
 These finite checks are **not memory-safety proofs**. Compute Sanitizer and
 multi-stream concurrency need separately scoped tests if relevant.
 
-## Example lesson from a real reported validation (not bundled raw data)
+For paged KV, check metadata, page bounds/ownership, logical order, and KV value
+agreement separately. Exercise staging overwrite without commit, prediction
+commit/clear, real commit, eviction, physical-page reuse, batch/layer isolation,
+and reset against an independent logical contiguous reference. Advance from a
+single backend call to one Plugin, a small multi-Plugin Engine, full Engine,
+real repeated steps, and recorded chunks; each gate has its own limits. See
+`10-paged-kv-contract.md` for the Engine ABI and staged checks.
 
-- Video Self-Attention, one flattened head, 32 queries, **all** 8672 K/V tokens
-  from an original Q length of 512. Mathematical reason: noncausal attention
-  rows/heads are independent **if all relevant K/V are preserved**.
-- `candidate_example.py` was PyTorch Math SDPA, **not** an optimized GPU kernel
-  or extracted original TRT kernel; CPU/Thor CUDA JSON report numerical PASS,
-  but this is **not** a production-shape performance or plugin claim.
-- Source capture JSON reports original/debug 643 layers, matching tactics and
-  bitwise matching external `noise_pred/current_k/current_v`. Only the original
-  report issuer can substantiate these checks from captured artifacts.
-- Never merge same-named `_gemm_mha_v2_myl0_17` between **Video** and **Action**
-  Engines: mode, workload length, Tactic and Engine identity can differ.
+## Interpreting reduced fixtures
+
+A reduced fixture can support a mathematical or caller-behavior check only when
+its construction preserves the tested semantics. It is not evidence of
+production-shape performance, original Engine internals, Plugin integration, or
+full-model behavior. If independent rows/heads are selected, retain every K/V
+value required by those rows and document the argument. Layer names alone do
+not identify matching work across modes or Engine builds; compare workload,
+source mapping, shapes, and Engine identity.
 
 ## Use the offline report auditor
 
@@ -87,7 +95,7 @@ Missing safetensors are flagged; never infer their integrity from JSON alone.
 
 ## Gates
 
-- Source capture stage: raw tensors and actual provenance checked **in the company environment**;
+- Source capture stage: raw tensors and actual provenance checked **in the source project environment**;
   external equivalence and any internal debug perturbation limitations documented.
 - Local numerical checkpoint: `validate.py` report + code hash + frozen fixture,
   independent reference, behavior/perturbation checks. No speed claim yet.
