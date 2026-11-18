@@ -6,6 +6,21 @@ Designed around the real workflow: recorded-history full-model inference →
 operator extraction → local replay → kernel/full-call benchmark → TensorRT
 integration → Engine Inspector diff → multi-chunk replay.
 
+## Field lessons and operating review
+
+The original 8-step workflow remains the entrypoint. Additional targeted references capture lessons from later Builder/ONNX/Profiler/cache/GEMM investigations:
+
+| Reference | Reusable question |
+|---|---|
+| [09 Builder forensics](references/09-builder-forensics.md) | Does a rebuild really isolate the claimed Builder change? |
+| [10 Module-cost attribution](references/10-module-cost-attribution.md) | Where did the actual GPU time go, without double-counting fusion? |
+| [11 Invariant subgraph cache](references/11-invariant-subgraph-cache.md) | Can unchanged condition-side work be skipped across forwards? |
+| [12 GEMM negative results](references/12-gemm-negative-results.md) | Is there a fair, numerically valid faster candidate? |
+| [13 Benchmark lifecycle](references/13-benchmark-lifecycle.md) | Have cold/setup, miss, steady, replay and wall costs been accounted for? |
+| [14 Conditioning/AdaLN triage](references/14-conditioning-modulation.md) | Is time-modulation reuse real, or is a large output merely logical? |
+
+Use [system optimization review](templates/system_optimization_review.md) to record an accept/iterate/reject decision. These are **methods**, not copies of internal case logs; the public repository must never include proprietary tensors, profiles, exact company performance figures or confidential file paths.
+
 ## What this delivers
 
 1. **SKILL.md**: a short navigation and decision-oriented workflow for an agent/developer.

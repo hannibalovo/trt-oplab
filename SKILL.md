@@ -47,6 +47,15 @@ measurement boundary, workload, units, and comparison artifact.
 8. **Decide** accept/iterate/reject based on correctness, local, integration,
    end-to-end evidence and uncertainty. See `references/05-review-decisions.md`.
 
+## Choose the investigation
+
+- **Changed Builder settings?** Lock Engine/graph identity and consult `09-builder-forensics.md`.
+- **Unsure what dominates?** Map ONNX → TRT → Nsys first; keep Mixed/Unknown in `10-module-cost-attribution.md`.
+- **Repeated immutable conditions?** Test precompute/cache validity and task-level amortization via `11-invariant-subgraph-cache.md`.
+- **Large GEMM with no matched win?** Prefer a documented negative result to an unjustified plugin in `12-gemm-negative-results.md`.
+- **Lazy setup or multi-chunk latency?** Declare cold/ready/steady accounting in `13-benchmark-lifecycle.md`.
+- **Huge conditioning outputs?** Distinguish timestep reuse from physical materialization using `14-conditioning-modulation.md`.
+
 ## Experiment state (machine-readable)
 
 Initialize: `python helpers/experiment.py init --out RUN_DIR --hypothesis "..." --target "..."`
@@ -74,11 +83,22 @@ the helper verifies records, not mathematical truth.
 - `references/07-validation-harness.md` — real tensor fixtures, candidate interface, negative controls, report-strength limits
 - `references/08-benchmark-protocol.md` — matched production-shape K/O/I measurement, original-TRT baseline constraints
 
+- `references/09-builder-forensics.md` — Builder provenance, diagnostic rebuilds, tactic search confounders
+- `references/10-module-cost-attribution.md` — ONNX→TRT→Nsys mapping; Self/Cross/FFN, Mixed/Unknown and byte claims
+- `references/11-invariant-subgraph-cache.md` — repeated-condition K/V precompute, validity, memory and amortization
+- `references/12-gemm-negative-results.md` — same-boundary GEMM evidence, NCU caveats and stop rules
+- `references/13-benchmark-lifecycle.md` — cold/ready/steady, AB/BA, setup charging and stateful replay
+- `references/14-conditioning-modulation.md` — AdaLN schedule reuse vs broadcast traffic hypotheses
+
 ## Helper index
 
 - `helpers/layerinfo.py` — **offline**, stdlib-only Inspector summary and conservative MHA diff
 - `helpers/experiment.py` — experiment state, evidence checks, append-only stage history
 - `helpers/evidence_audit.py` — offline JSON **report consistency** audit; no GPU, tensor values, numerical recomputation or performance proof
+
+## Portability and disclosure
+
+This repository is public. Write reusable **methods and anonymized patterns** only. Do not leak internal model names, company-specific paths, raw profiler traces, engine binaries, captured tensors, proprietary performance totals or credentials. Keep case evidence in the authorized project workspace. Reproduce any externally published measurement only with separate disclosure approval.
 
 ## Critical lessons
 
