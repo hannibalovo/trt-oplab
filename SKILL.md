@@ -40,9 +40,13 @@ measurement boundary, workload, units, and comparison artifact.
    For offline JSON report consistency: `python helpers/evidence_audit.py --help`.
 5. **Measure** on original production-shaped data, not a reduced validation
    fixture. Record candidate K and complete O; only compare to original TRT at
-   demonstrably matched boundaries. `references/08-benchmark-protocol.md`.
+   demonstrably matched boundaries. `references/08-benchmark-protocol.md`. For
+   Engine read/deserialization/context setup, use `references/16-engine-startup-lifecycle.md`
+   within the task endpoints from `references/13-benchmark-lifecycle.md`.
 6. **Choose boundary** deliberately; integrate only after local evidence.
    ONNX rewrite + Plugin/ordinary TRT graph; see `references/04-integration.md`.
+   For a page-pool Engine ABI and cache state contract, also use
+   `references/15-paged-kv-contract.md`.
 7. **Compare engines** and rerun application replay. `python helpers/layerinfo.py diff BASE.json CANDIDATE.json`.
 8. **Decide** accept/iterate/reject based on correctness, local, integration,
    end-to-end evidence and uncertainty. See `references/05-review-decisions.md`.
@@ -55,6 +59,8 @@ measurement boundary, workload, units, and comparison artifact.
 - **Large GEMM with no matched win?** Prefer a documented negative result to an unjustified plugin in `12-gemm-negative-results.md`.
 - **Lazy setup or multi-chunk latency?** Declare cold/ready/steady accounting in `13-benchmark-lifecycle.md`.
 - **Huge conditioning outputs?** Distinguish timestep reuse from physical materialization using `14-conditioning-modulation.md`.
+- **Noncontiguous KV?** Use `15-paged-kv-contract.md` for Pool/Table/Staging ABI, lifecycle invariants, Plugin integration and staged validation.
+- **Engine startup?** Use `16-engine-startup-lifecycle.md` to decompose read, deserialization, context, bindings, warmup and graph setup within Reference 13 endpoints.
 
 ## Experiment state (machine-readable)
 
@@ -89,6 +95,8 @@ the helper verifies records, not mathematical truth.
 - `references/12-gemm-negative-results.md` — same-boundary GEMM evidence, NCU caveats and stop rules
 - `references/13-benchmark-lifecycle.md` — cold/ready/steady, AB/BA, setup charging and stateful replay
 - `references/14-conditioning-modulation.md` — AdaLN schedule reuse vs broadcast traffic hypotheses
+- `references/15-paged-kv-contract.md` — Dense/Paged ABI, physical pool and staging, lifecycle invariants, Plugin resources and staged correctness/performance gates
+- `references/16-engine-startup-lifecycle.md` — serialized Engine initialization phases, page-cache evidence, hashes, clocks and I/O failures
 
 ## Helper index
 
@@ -106,7 +114,7 @@ This repository is public. Write reusable **methods and anonymized patterns** on
   layout, numerics, or tactics. A debug Engine is **not automatically the original** Engine.
 - A Plugin can replace a compute region but often prevents native optimization *through*
   its body. Smallest Plugin is not automatically fastest; largest is not either.
-- A standalone replay should not become an accidental claim that full 30-layer
+- A standalone replay should not become an accidental claim that full-Engine
   inference or multi-chunk KV semantics have passed.
 - A validator PASS on a **sliced contiguous** Q/K/V fixture is not proof of
   production-strided operation, performance, Plugin integration or E2E quality.

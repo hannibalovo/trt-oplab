@@ -71,8 +71,8 @@ def mha_records(doc):
         if not is_mha(l):
             continue
         input_shapes = shape_list(l, 'Inputs')
-        # Explicit dynamic KV denotes self-attention in the supplied LingBot
-        # Action engine; this is a heuristic, not a general Transformer rule.
+        # Explicit dynamic KV is a profile-specific self-attention heuristic,
+        # not a general Transformer rule.
         dynamic = any(-1 in shape for shape in input_shapes if isinstance(shape, list))
         records.append({
             'inspector_index': idx,
@@ -104,7 +104,7 @@ def summarize(path):
         'warnings': [
             'Structural inspector only: no Q/K/V numerical data or runtime kernel durations.',
             'Inspector Layer != CUDA kernel launch; kgen/gemm reflect compiler layers.',
-            'MHA kind uses only dynamic (-1) KV shape as a LingBot-specific heuristic.',
+            'MHA kind uses only dynamic (-1) KV shape as a profile-specific heuristic.',
             'TacticName equality does not prove equal runtime latency or exactly equal GPU launches.',
         ],
     }

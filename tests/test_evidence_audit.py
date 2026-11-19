@@ -43,7 +43,7 @@ class EvidenceAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/'cap.json'
             path.write_text(json.dumps(dict(capture_passed=True,all_layer_tactics_identical=True,
-                original_layer_count=643,debug_layer_count=643,
+                original_layer_count=42,debug_layer_count=42,
                 external_output_metrics={'out':{'bitwise_equal':True,'finite':True}})))
             result=audit.assess(capture=path)
             self.assertTrue(result['report_checks_passed'])

@@ -1,11 +1,16 @@
-# Evidence examples
+# Anonymized case studies
 
-Raw company Engine summaries, tensors, Engine binaries, hashes and internal output
-artifacts are **not bundled in a generally installable Skill**. Run
-`helpers/evidence_audit.py` against your own `example_cpu.json`,
-`example_cuda.json`, `source_capture.json` and optional `manifest.json`
-locally, writing each audit into the experiment's evidence folder.
+These short cases preserve reported observations and evidence limits without
+shipping company paths, models, Engine files, tensors, raw traces or proprietary
+performance totals. They are teaching examples, not general performance claims.
 
-The sample `templates/benchmark_report.json` is a placeholder, *not a measured
-benchmark*. The original v0.1 Action Engine summary was removed from the
-installer to prevent accidental transmission of project-specific details.
+- [Engine lifecycle and first-request latency](engine-lifecycle-case-study.md) —
+  distinguish storage/read/setup observations from warmed GPU throughput.
+- [Paged KV Engine contract](paged-kv-contract-case-study.md) — staged correctness,
+  multi-Plugin failure controls, cache lifecycle and unresolved latency spikes.
+- [FFN plus KV Pack composite change](ffn-kv-pack-case-study.md) — avoid assigning
+  a multi-factor replay result to one optimization.
+
+See [Reference 15](../references/15-paged-kv-contract.md) for the detailed paged
+contract and [Reference 16](../references/16-engine-startup-lifecycle.md) for
+Engine initialization phases.

@@ -30,3 +30,13 @@ Use **AB/BA reversed paired trials** and reproducible inputs. Treat startup prec
 Keep immutable per-run logs, per-chunk metrics, setup/precompute/miss-hit counters, engine/config checksums, correctness and state audit, and AB/BA summary. Separate measured, inferred and unknown quantities.
 
 See `08-benchmark-protocol.md` for kernel/operator/Engine scopes and `templates/system_optimization_review.md` for a concise review template.
+
+## Engine initialization detail
+
+This page defines task-level Cold/Ready/Steady accounting and complete task
+cost. For the internal serialized-Engine phases—file read, Runtime creation,
+deserialization, context/profile/shape/binding setup, allocation, warmup and
+CUDA Graph capture/instantiate—see
+[`16-engine-startup-lifecycle.md`](16-engine-startup-lifecycle.md). Use the
+same endpoint definitions here; Reference 16 decomposes the initialization
+inside them rather than defining a competing task lifecycle.

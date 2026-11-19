@@ -43,3 +43,12 @@
 - Key failure mode / negative control:
 - Reproducibility command and artifacts:
 - Deployment lifecycle/invalidation/rollback risks:
+
+## Paged KV correctness (complete when applicable)
+- Metadata agreement (lengths, mappings, commit/clear/eviction/reset):
+- Page-index legality and batch/layer ownership:
+- Logical token order after staging, commit, eviction and physical-page reuse:
+- KV-content comparison and numerical distribution:
+- Attention/backend agreement on identical Q/K/V:
+- Final model/task-quality gate:
+- These are separate gates; list each result as pass / fail / unknown:
