@@ -52,3 +52,18 @@ After each finished case, record:
 
 Only promote a lesson from an individual experiment into shared `references/`
 after it has been verified or explicitly marked as a hypothesis.
+
+## One canonical knowledge path
+
+- Keep experiment-specific inputs, logs, profiles and raw measurements in that
+  experiment's evidence directory; do not turn the experiment directory into a
+  second Skill or Reference tree.
+- Add reusable methods to the existing Reference that owns the topic. Create a
+  new numbered Reference only when the topic has a distinct contract or
+  validation boundary, then update `SKILL.md`, `README.md` and the relevant
+  quickstart links in the same change.
+- Add a case study only when it contributes a reusable decision or failure
+  lesson. Keep it anonymized and indexed from `examples/README.md`.
+- Maintain one canonical `master` branch for accepted Skill knowledge. Use
+  short-lived work branches for edits, merge them into `master`, and remove the
+  branch after the merge.
